@@ -1,0 +1,22 @@
+
+def bell(graph,vertices,start):
+    distances={vertex: float('inf') for vertex in vertices}
+    distances[start]=0
+    for _ in range (len(vertices)-1):
+        for u , v, weight in graph:
+            if distances[u] + weight < distances[v]:
+                distances[v] = distances[u] + weight
+    for u , v, weight in graph:
+        if distances[u] + weight < distances[v]:
+             print("negative")
+             return None
+    return distances
+edges = [
+    ('a', 'b', 4),
+    ('a', 'c', 5),
+    ('b', 'c', -3),
+    ('c', 'd', 2)
+]
+vertices = ['a', 'b', 'c', 'd']
+start_node = 'a'
+print("Bellman-Ford distances:", bell(edges, vertices, start_node))
