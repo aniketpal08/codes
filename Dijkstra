@@ -1,0 +1,22 @@
+def dijkstra(graph, start):
+    unvisited = list(graph.keys())
+    distances = {node: float('inf') for node in graph}
+    distances[start] = 0
+    while unvisited:
+        current = min(unvisited, key=lambda node: distances[node])
+        unvisited.remove(current)
+        for neighbor, weight in graph[current]:
+            if distances[current] + weight < distances[neighbor]:
+                distances[neighbor] = distances[current] + weight
+    return distances
+graph = {
+    'A': [('B', 1), ('C', 4)],
+    'B': [('C', 2), ('D', 5)],
+    'C': [('D', 1)],
+    'D': []
+}
+
+start_node = 'A'
+print("Shortest distances:", dijkstra(graph, start_node))
+start_node = 'A'
+print("Dijkstra distances:", dijkstra(graph, start_node))
