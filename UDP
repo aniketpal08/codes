@@ -1,0 +1,18 @@
+
+import socket
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+server_socket.bind(('localhost', 12345))
+print("UDP Server is listening on port 12345...")
+data, client_address = server_socket.recvfrom(1024)
+print(f"Received from {client_address}: {data.decode()}")
+server_socket.sendto("Hello from UDP Server!".encode(), client_address)
+server_socket.close()
+
+
+import socket
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+server_address = ('localhost', 12345)
+client_socket.sendto("Hello from UDP Client!".encode(), server_address)
+data, server = client_socket.recvfrom(1024)
+print(f"Received from server: {data.decode()}")
+client_socket.close()
