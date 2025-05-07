@@ -1,22 +1,24 @@
+import heapq
 def dijkstra(graph, start):
-    unvisited = list(graph.keys())
-    distances = {node: float('inf') for node in graph}
-    distances[start] = 0
-    while unvisited:
-        current = min(unvisited, key=lambda node: distances[node])
-        unvisited.remove(current)
-        for neighbor, weight in graph[current]:
-            if distances[current] + weight < distances[neighbor]:
-                distances[neighbor] = distances[current] + weight
-    return distances
+    dist = {node: float('inf') for node in graph}
+    dist[start] = 0
+    heap = [(0, start)]
+    while heap:
+        cost, u = heapq.heappop(heap)
+        for v, weight in graph[u]:
+            if dist[v] > dist[u] + weight:
+                dist[v] = dist[u] + weight
+                heapq.heappush(heap, (dist[v], v))
+    return dist
 graph = {
     'A': [('B', 1), ('C', 4)],
     'B': [('C', 2), ('D', 5)],
     'C': [('D', 1)],
     'D': []
 }
-
 start_node = 'A'
-print("Shortest distances:", dijkstra(graph, start_node))
-start_node = 'A'
-print("Dijkstra distances:", dijkstra(graph, start_node))
+result = dijkstra(graph, start_node)
+print("Dijkstra's Algorithm:")
+print("Shortest distances from", start_node)
+for node, distance in result.items():
+    print(f"{node}: {distance}")
